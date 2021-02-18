@@ -1,15 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-
-let messages = ['Привет', 'Как дела?'];
-const MessageComponent = (props) => <div>{props.text}</div>;
-const MessageField = (props) => {
-    return props.messages.map(message => <MessageComponent text={message}/>);
-};
+import React, {useState} from 'react';
 
 function App() {
+    const [messages, setMessages] = useState(['Привет', 'Как дела?'])
+
+    const handleClick = () => {
+        setMessages(messages => [...messages, 'Нормально'])
+    }
+
+    const Output = ({message}) => <div>{message}</div>
+
     return (
-        <MessageField messages={messages}/>
+        <div>
+            {messages.map((message) => (
+                <Output message={message}/>
+            ))}
+            <button type="button" onClick={handleClick}>Добавить</button>
+        </div>
     )
 }
 
