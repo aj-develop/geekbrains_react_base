@@ -1,44 +1,46 @@
 import React, {useState} from 'react';
+import mic from "../img/mic.png";
+import emo from "../img/emo.png";
+import camera from "../img/camera.png";
+import attach_file from "../img/attach_file.png";
 
 const Message = ({messageFieldHandler}) => {
 
-        const [message, setMessage] = useState('ALEX');
-
-        const submitHandler = e => {
-            e.preventDefault()
-        }
+        const [message, setMessage] = useState({author: 'Александр', text: ''});
 
         const changeHandler = ({target}) => {
-            setMessage(target.value)
+            setMessage({
+                ...message, text: target.value
+            })
         }
 
         const keyPressHandler = ({key}) => {
-            if (key === "Enter") {
-                clickHandler()
+            if (key === "Enter" && typeof message.text !== 'undefined' && message.text !== '') {
+                messageFieldHandler(message);
+                setMessage({
+                    ...message, text: ''
+                });
+                let inputField = document.querySelector('.chat-footer__input');
+                inputField.value = "";
             }
         }
 
-        const clickHandler = () => {
-            messageFieldHandler(message);
-            let inputField = document.querySelector('input');
-            inputField.value = "";
-        }
-
         return (
-            <form onSubmit={submitHandler}>
+            <div className="chat-footer">
+                <img src={emo} className="emo" alt="emo"/>
                 <input
-                    type='text'
-                    required="required"
+                    type="text"
+                    className="chat-footer__input"
+                    placeholder="Type a message"
                     onChange={changeHandler}
                     onKeyPress={keyPressHandler}
                 />
-                <button
-                    type="button"
-                    onClick={clickHandler}
-                >
-                    Добавить
-                </button>
-            </form>
+                <div className="icons">
+                    <img src={attach_file} alt="attach"/>
+                    <img src={camera} alt="camera"/>
+                </div>
+                <img src={mic} className="mic" alt="mic"/>
+            </div>
         );
     }
 ;

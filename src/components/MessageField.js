@@ -1,41 +1,60 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Message from "./Message";
 
 const MessageField = () => {
-    /*
+
     const [messageField, setMessageField] = useState([
-            {id: 0, value: {author: 'Alex', text: 'Привет'}},
-            {id: 1, value: {author: 'Alex', text: 'Как дела?'}}
+            {id: 0, message: {author: 'Робот', text: 'Привет!'}},
+            {id: 1, message: {author: 'Робот', text: 'Как дела?'}}
         ]
     );
-    */
 
-    const [messageField, setMessageField] = useState(['Привет', 'Как дела?']);
-
-    /*
-    const addMessageField = (message) => {
+    const addMessageField = (messageIn) => {
         setMessageField([...messageField, {
             id: messageField.length,
-            value: message
+            message: messageIn
         }])
     }
-     */
-    const addMessageField = (message) => {
-        setMessageField([...messageField, message])
-    }
+
+    useEffect(() => {
+        if (messageField[messageField.length - 1].message.author !== 'Робот') {
+            const timer = setTimeout(() =>
+                setMessageField([...messageField, {
+                        id: messageField.length,
+                        message: {author: 'Робот', text: 'Не приставай ко мне, я робот!'}
+                    }]
+                ), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [messageField]);
 
     return (
-        <div>
-            <ul>
+        <>
+            <div className="chat-box">
                 {messageField.map(item => (
-                    <li>{item}</li>
+                    <div
+                        className={'chat-' + (item.message.author === 'Робот' ? "l" : "r")}
+                        key={item.id}
+                    >
+                        {item.message.author !== 'Робот' &&
+                        <div className="sp"></div>
+                        }
+                        <div className="mess">
+                            <p>
+                                {item.message.text}
+                            </p>
+                            <div className="check">
+                                <span>{item.message.author}</span>
+                            </div>
+                        </div>
+                        {item.message.author == 'Робот' &&
+                        <div className="sp"></div>
+                        }
+                    </div>
                 ))}
-            </ul>
-
+            </div>
             <Message messageFieldHandler={addMessageField}/>
-
-            <h2>{JSON.stringify(messageField)}</h2>
-        </div>
+        </>
     )
 }
 export default MessageField
