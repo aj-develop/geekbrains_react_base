@@ -4,9 +4,11 @@ import React from "react";
 const ChatList = () => {
 
     const chats = [
-        'Робот',
         'София',
-        'Михаил'
+        'Михаил',
+        'Робот',
+        'Игорь',
+        'Евгения'
     ];
 
 
@@ -14,7 +16,7 @@ const ChatList = () => {
         <div className="chat-list">
             <ListGroup>
                 {chats.map(chat => (
-                    <ListGroup.Item>{chat}</ListGroup.Item>
+                    <ListGroup.Item active={chat === 'Робот'}>{chat}</ListGroup.Item>
                 ))}
             </ListGroup>
         </div>

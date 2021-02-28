@@ -12,6 +12,11 @@
     margin: auto;
 }
 
+.list-group-item.active {
+    background-color: #036055;
+    border-color: #036055;
+}
+
 .chat-list, .chat {
     height: 100vh;
 }
