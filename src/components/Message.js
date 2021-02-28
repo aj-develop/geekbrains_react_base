@@ -4,7 +4,6 @@ import emo from "../img/emo.png";
 import camera from "../img/camera.png";
 import attach_file from "../img/attach_file.png";
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 
 const Message = ({messageFieldHandler}) => {
 
@@ -53,4 +52,4 @@ const Message = ({messageFieldHandler}) => {
     }
 ;
 
-export default Message
+export default Message;

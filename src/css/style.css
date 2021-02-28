@@ -6,14 +6,23 @@
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
     width: 500px;
     margin: auto;
+}
+
+.chat-list, .chat {
+    height: 100vh;
+}
+
+.chat-wrapper {
+    display: flex;
 }
 
 .chat {
     display: flex;
     flex-direction: column;
-    height: 100vh;
     background: #f1f0e8;
 }
 
@@ -28,7 +37,7 @@
     display: flex;
     align-items: center;
     height: 60px;
-    padding: 0px 10px;
+    padding: 0 10px;
     position: relative;
 }
 
@@ -106,7 +115,7 @@
     background: #F7FCF6;
     padding: 10px;
     border-radius: 10px;
-    margin: 20px 0px;
+    margin: 20px 0;
     cursor: pointer;
 }
 
