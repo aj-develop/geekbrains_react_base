@@ -3,6 +3,8 @@ import mic from "../img/mic.png";
 import emo from "../img/emo.png";
 import camera from "../img/camera.png";
 import attach_file from "../img/attach_file.png";
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 
 const Message = ({messageFieldHandler}) => {
 
@@ -25,22 +27,28 @@ const Message = ({messageFieldHandler}) => {
             }
         }
 
+        const submitHandler = e => {
+            e.preventDefault()
+        }
+
         return (
-            <div className="chat-footer">
-                <img src={emo} className="emo" alt="emo"/>
-                <input
-                    type="text"
-                    className="chat-footer__input"
-                    placeholder="Type a message"
-                    onChange={changeHandler}
-                    onKeyPress={keyPressHandler}
-                />
-                <div className="icons">
-                    <img src={attach_file} alt="attach"/>
-                    <img src={camera} alt="camera"/>
+            <Form onSubmit={submitHandler}>
+                <div className="chat-footer">
+                    <img src={emo} className="emo" alt="emo"/>
+                    <Form.Control
+                        type="ext"
+                        className="chat-footer__input"
+                        placeholder="Type a message"
+                        onChange={changeHandler}
+                        onKeyPress={keyPressHandler}
+                    />
+                    <div className="icons">
+                        <img src={attach_file} alt="attach"/>
+                        <img src={camera} alt="camera"/>
+                    </div>
+                    <img src={mic} className="mic" alt="mic"/>
                 </div>
-                <img src={mic} className="mic" alt="mic"/>
-            </div>
+            </Form>
         );
     }
 ;
