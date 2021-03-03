@@ -1,13 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import Message from "./Message";
 
-const MessageField = () => {
+const MessageField = ({selectedChat}) => {
 
-    const [messageField, setMessageField] = useState([
-            {id: 0, message: {author: 'Робот', text: 'Привет!'}},
-            {id: 1, message: {author: 'Робот', text: 'Как дела?'}}
-        ]
-    );
+    const [messageField, setMessageField] = useState(selectedChat);
 
     const addMessageField = (messageIn) => {
         setMessageField([...messageField, {
@@ -17,7 +13,8 @@ const MessageField = () => {
     }
 
     useEffect(() => {
-        if (messageField[messageField.length - 1].message.author !== 'Робот') {
+        if (messageField.length > 0 &&
+            messageField[messageField.length - 1].message.author !== 'Робот') {
             const timer = setTimeout(() =>
                 setMessageField([...messageField, {
                         id: messageField.length,

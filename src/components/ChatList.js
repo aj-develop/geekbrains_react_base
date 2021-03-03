@@ -1,23 +1,21 @@
 import ListGroup from 'react-bootstrap/ListGroup';
-import React from "react";
+import React, {useCallback} from "react";
+import {Link} from "react-router-dom";
 
-const ChatList = () => {
+const ChatList = ({chats, chatId}) => {
 
-    const chats = [
-        'София',
-        'Михаил',
-        'Робот',
-        'Игорь',
-        'Евгения'
-    ];
-
+    const renderChatList = useCallback(chat => (
+        <Link key={chat.id} to={`/chats/${chat.id}`}>
+            <ListGroup.Item active={chat.id === +chatId}>
+                {chat.name}
+            </ListGroup.Item>
+        </Link>
+    ), []);
 
     return (
         <div className="chat-list">
             <ListGroup>
-                {chats.map(chat => (
-                    <ListGroup.Item active={chat === 'Робот'}>{chat}</ListGroup.Item>
-                ))}
+                {chats.map(renderChatList)}
             </ListGroup>
         </div>
     )
