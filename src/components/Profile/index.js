@@ -1,6 +1,10 @@
-const Profile = () => {
+import React from "react";
+
+const Profile = ({selectedChat}) => {
     return (
-        <h2>Profile</h2>
+        <div className="chat-box">
+            <h2>Профиль: {selectedChat.name}</h2>
+        </div>
     );
 }
 

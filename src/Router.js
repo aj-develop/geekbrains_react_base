@@ -1,23 +1,23 @@
 import React from 'react';
 import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
 import Chats from "./components/Chats";
-import Profile from "./components/Profile";
+import {ROUTES} from "./utils/constants";
 
 export default function Router() {
     return (
 
         <BrowserRouter>
-            <Link to="/profile">Profile</Link>
-            <Link to="/chats">chats</Link>
-
             <Switch>
-                <Route path="/profile">
-                    <Profile/>
-                </Route>
-                <Route exact path="/chats">
+                <Route path={ROUTES.profileDetails}>
                     <Chats/>
                 </Route>
-                <Route path="/chats/:chatId">
+                <Route exact path="/">
+                    <Chats/>
+                </Route>
+                <Route exact path={ROUTES.chats}>
+                    <Chats/>
+                </Route>
+                <Route path={ROUTES.chatDetails}>
                     <Chats/>
                 </Route>
             </Switch>
