@@ -4,9 +4,10 @@ import MessageField from "../MessageField";
 import ChatList from "../ChatList";
 import ChatHeader from "../ChatHeader";
 import React, {useState, useCallback, useEffect, useMemo} from 'react';
-import {useParams, useRouteMatch} from "react-router-dom";
-import {AUTHORS} from "../../utils/constants";
+import {useParams, useRouteMatch, Redirect} from "react-router-dom";
 import Profile from "../Profile";
+import {useDispatch, useSelector} from "react-redux";
+import {addBotMessage} from "../../store/messages/actions";
 
 const Chats = () => {
     let chatId = +useParams().chatId;
@@ -16,89 +17,42 @@ const Chats = () => {
     }
     const match = useRouteMatch();
 
-    console.log(match.url);
+    const chats = useSelector(state => state.chats.chatList);
+    const messages = useSelector((state) => state.messages.messageList);
 
-    const [chats, setChats] = useState(
-        [
-            {id: 1, name: 'София', messageList: []},
-            {id: 2, name: 'Михаил', messageList: []},
-            {
-                id: 3, name: 'Робот', messageList: [
-                    {author: 'Робот', text: 'Привет!'},
-                    {author: 'Робот', text: 'Как дела?'}
-                ]
-            },
-            {
-                id: 4, name: 'Евгения', messageList: [
-                    {author: 'Евгения', text: 'Привет!'},
-                ]
-            },
-            {id: 5, name: 'Игорь', messageList: []},
-        ]
-    );
+    const dispatch = useDispatch();
 
     const selectedChat = useMemo(
-        () => chats.find(
-            chat => chat.id === chatId),
-        [chatId, chats]
-    );
-
-    const chatNotSelected = !chatId || !selectedChat ? true : false;
-
-    const selectedChatIndex = useMemo(
-        () => chats.findIndex((
-            chat) => chat.id === chatId),
+        () => chats.find((chat) => chat.id === chatId),
         [chatId, chats]
     );
 
     const addMessage = useCallback(
-        (author, text) => {
-            const newChats = [...chats];
-            newChats[selectedChatIndex] = {
-                ...selectedChat,
-                messageList: [...selectedChat.messageList, {author, text}],
-            }
-            setChats(newChats);
+        (text, author) => {
+            dispatch(addBotMessage(selectedChat?.id, {text, author}, selectedChat));
         },
-        [chats, selectedChat, selectedChatIndex]
+        [selectedChat, dispatch]
     );
 
-
-    useEffect(() => {
-            if (!chatNotSelected) {
-                let timeout;
-                if (
-                    selectedChat.messageList?.length > 0 &&
-                    selectedChat.messageList[selectedChat.messageList?.length - 1]?.author !== AUTHORS.BOT &&
-                    selectedChat.messageList[selectedChat.messageList?.length - 1]?.author !== 'София' &&
-                    selectedChat.messageList[selectedChat.messageList?.length - 1]?.author !== 'Евгения' &&
-                    selectedChat.messageList[selectedChat.messageList?.length - 1]?.author !== 'Игорь' &&
-                    selectedChat.messageList[selectedChat.messageList?.length - 1]?.author !== 'Михаил'
-
-                ) {
-                    timeout = setTimeout(() =>
-                            addMessage(selectedChat.name, "Не приставай ко мне"),
-                        1000
-                    );
-                }
-                return () => clearTimeout(timeout);
-            }
-        }, [addMessage, selectedChat]
-    );
-
+    const messageList = useMemo(() => messages?.[selectedChat?.id] || [], [
+        messages,
+        selectedChat,
+    ]);
 
     return (
         <div className="container">
             <div className="chat-wrapper">
                 {(() => {
                     switch (true) {
+                        case /^\/$/.test(match.url):
+                            return <Redirect to='/chats'/>
                         case /^\/chats\/\d$/.test(match.url):
                             return (
                                 <>
-                                    <ChatList chats={chats} chatId={chatId}/>
+                                    <ChatList chatId={chatId}/>
                                     <div className="chat">
-                                        <ChatHeader selectedChat={selectedChat}/>
-                                        <MessageField messages={selectedChat?.messageList || []}/>
+                                        <ChatHeader chatId={chatId}/>
+                                        <MessageField messages={messageList}/>
                                         <Message onAddMessage={addMessage}/>
                                     </div>
                                 </>
@@ -106,9 +60,9 @@ const Chats = () => {
                         case /^\/chats$/.test(match.url):
                             return (
                                 <>
-                                    <ChatList chats={chats} chatId={chatId} selectedChat={selectedChat}/>
+                                    <ChatList chatId={chatId}/>
                                     <div className="chat">
-                                        <ChatHeader selectedChat={selectedChat}/>
+                                        <ChatHeader chatId={chatId}/>
                                         <MessageField chatNotSelected={true}/>
                                     </div>
                                 </>
@@ -116,10 +70,10 @@ const Chats = () => {
                         case /^\/profile\/\d$/.test(match.url):
                             return (
                                 <>
-                                    <ChatList chats={chats} chatId={chatId}/>
+                                    <ChatList chatId={chatId}/>
                                     <div className="chat">
-                                        <ChatHeader selectedChat={selectedChat}/>
-                                        <Profile selectedChat={selectedChat}/>
+                                        <ChatHeader chatId={chatId}/>
+                                        <Profile chatId={chatId}/>
                                     </div>
                                 </>
                             );

@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 const Message = ({onAddMessage}) => {
 
         const [message, setMessage] = useState(
-            {author: AUTHORS.ME, text: ''}
+            {text: '', author: AUTHORS.ME}
         );
 
         const changeHandler = ({target}) => {
@@ -20,7 +20,7 @@ const Message = ({onAddMessage}) => {
 
         const keyPressHandler = ({key}) => {
             if (key === "Enter" && typeof message.text !== 'undefined' && message.text !== '') {
-                onAddMessage(AUTHORS.ME, message.text);
+                onAddMessage(message.text, AUTHORS.ME);
                 setMessage({
                     ...message, text: ''
                 });

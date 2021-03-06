@@ -6,19 +6,19 @@ import more from "../../img/more.png";
 import React from "react";
 import {Link, generatePath} from "react-router-dom";
 import {ROUTES} from "../../utils/constants";
+import {useSelector} from "react-redux";
 
-const ChatHeader = ({selectedChat}) => {
+const ChatHeader = ({chatId}) => {
 
-    const selectedCatId = selectedChat ? selectedChat.id : 1;
-
-    console.log(selectedCatId)
-
+    const profiles = useSelector(state => state.profile.profileList);
+    const profile = profiles[chatId];
+    
     const renderName = (
             <>
                 <img src={arrow} className="arrow" alt="arrow"/>
                 <img src={pp} className="pp" alt="pp"/>
-                <Link to={generatePath(ROUTES.profileDetails, {profileId: selectedCatId})}>
-                    <h2>{selectedChat && selectedChat.name}</h2>
+                <Link to={generatePath(ROUTES.profileDetails, {profileId: chatId})}>
+                    <h2>{profile && profile.name}</h2>
                 </Link>
                 <span>online</span>
             </>
@@ -29,7 +29,7 @@ const ChatHeader = ({selectedChat}) => {
         <div className="chat-header">
             <div className="profile">
                 <div className="left">
-                    {selectedChat &&
+                    {profile &&
                     renderName
                     }
                 </div>
