@@ -229,3 +229,8 @@
     height: 35px;
     margin-left: 5px;
 }
+
+.blink {
+    background-color: greenyellow !important;
+    color: #007bff !important;
+}

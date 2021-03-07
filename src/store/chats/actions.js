@@ -1,13 +1,13 @@
 export const ADD_CHAT = "CHATS::ADD_CHAT";
-export const UPDATE_CHAT = "CHATS::UPDATE_CHAT";
+export const UPDATE_CHAT_BLINKING = "CHATS::UPDATE_CHAT_BLINKING";
 
 export const addChat = (name) => ({
     type: ADD_CHAT,
     name,
 });
 
-export const updateChat = (chatId, name) => ({
-    type: UPDATE_CHAT,
+export const updateChatBlinking = (chatId, isBlinking) => ({
+    type: UPDATE_CHAT_BLINKING,
     chatId,
-    name,
+    isBlinking
 });

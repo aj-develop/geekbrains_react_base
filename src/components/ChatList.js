@@ -1,9 +1,10 @@
 import ListGroup from 'react-bootstrap/ListGroup';
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {Link} from "react-router-dom";
 import AddChatDialog from "./AddChatDialog";
 import {useDispatch, useSelector} from "react-redux";
 import {addChat} from "../store/chats/actions";
+import {createSvgIcon} from "@material-ui/core";
 
 const ChatList = ({chatId}) => {
 
@@ -26,12 +27,15 @@ const ChatList = ({chatId}) => {
     }, []);
 
     const renderChatList = useCallback(chat => (
-        <Link key={chat.id} to={`/chats/${chat.id}`}>
-            <ListGroup.Item active={chat.id === chatId}>
-                {chat.name}
-            </ListGroup.Item>
-        </Link>
-    ), [chatId]);
+            <Link key={chat.id} to={`/chats/${chat.id}`}>
+                <ListGroup.Item className={chat.isBlinking ? 'blink' : ''} active={chat.id === chatId}>
+                    {chat.name}
+                </ListGroup.Item>
+            </Link>
+        ),
+        [chatId]
+        )
+    ;
 
     return (
         <div className="chat-list">

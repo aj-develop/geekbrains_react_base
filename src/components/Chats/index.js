@@ -3,7 +3,7 @@ import Message from "../Message";
 import MessageField from "../MessageField";
 import ChatList from "../ChatList";
 import ChatHeader from "../ChatHeader";
-import React, {useState, useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useParams, useRouteMatch, Redirect} from "react-router-dom";
 import Profile from "../Profile";
 import {useDispatch, useSelector} from "react-redux";
