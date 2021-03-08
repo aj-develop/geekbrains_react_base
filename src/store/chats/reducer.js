@@ -1,4 +1,4 @@
-import {ADD_CHAT, UPDATE_CHAT_BLINKING} from "./actions";
+import {ADD_CHAT, DELETE_CHAT, UPDATE_CHAT_BLINKING} from "./actions";
 
 const initialState = {
     chatList: [
@@ -29,6 +29,13 @@ const chatsReducer = (state = initialState, action) => {
                 return {
                     ...state,
                     chatList: newChatList,
+                };
+            case DELETE_CHAT:
+                return {
+                    ...state,
+                    chatList: state.chatList.filter(
+                        chatListItem => chatListItem.id !== action.chatId
+                    )
                 };
 
             default:

@@ -1,10 +1,10 @@
 import ListGroup from 'react-bootstrap/ListGroup';
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {Link} from "react-router-dom";
 import AddChatDialog from "./AddChatDialog";
+import DeleteChatDialog from "./DeleteChatDialog";
 import {useDispatch, useSelector} from "react-redux";
-import {addChat} from "../store/chats/actions";
-import {createSvgIcon} from "@material-ui/core";
+import {addChat, deleteChatWithMessages} from "../store/chats/actions";
 
 const ChatList = ({chatId}) => {
 
@@ -12,26 +12,52 @@ const ChatList = ({chatId}) => {
     const dispatch = useDispatch();
 
     const [visible, setVisible] = useState(false);
+    const [deleteVisible, setDeleteVisible] = useState(false);
 
     const addNewChat = useCallback((name) => {
         dispatch(addChat(name));
         setVisible(false);
     }, [dispatch]);
 
+    const deleteChatFromList = useCallback((chatId) => {
+        //console.log(chatId)
+        dispatch(deleteChatWithMessages(chatId));
+        setDeleteVisible(false);
+    }, [dispatch]);
+
     const handleClose = useCallback(() => {
         setVisible(false);
+    }, []);
+
+    const handleDeleteClose = useCallback(() => {
+        setDeleteVisible(false);
     }, []);
 
     const handleOpen = useCallback(() => {
         setVisible(true);
     }, []);
 
+    const handleDeleteOpen = useCallback(() => {
+        setDeleteVisible(true);
+    }, []);
+
     const renderChatList = useCallback(chat => (
-            <Link key={chat.id} to={`/chats/${chat.id}`}>
-                <ListGroup.Item className={chat.isBlinking ? 'blink' : ''} active={chat.id === chatId}>
-                    {chat.name}
-                </ListGroup.Item>
-            </Link>
+            <>
+                <div onClick={handleDeleteOpen}>XXX</div>
+
+                <Link key={chat.id} to={`/chats/${chat.id}`}>
+                    <ListGroup.Item className={chat.isBlinking ? 'blink' : ''} active={chat.id === chatId}>
+                        {chat.name}
+                    </ListGroup.Item>
+                </Link>
+
+                <DeleteChatDialog
+                    onClose={handleDeleteClose}
+                    onSubmit={deleteChatFromList}
+                    visible={deleteVisible}
+                    value={chat.id}
+                />
+            </>
         ),
         [chatId]
         )

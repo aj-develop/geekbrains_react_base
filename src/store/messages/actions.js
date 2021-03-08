@@ -2,11 +2,17 @@ import {AUTHORS} from "../../utils/constants";
 import {updateChatBlinking} from "../chats/actions";
 
 export const ADD_MESSAGE = 'MESSAGES::ADD_MESSAGE';
+export const DELETE_MESSAGES_FROM_CHAT = 'MESSAGES::DELETE_MESSAGES_FROM_CHAT';
 
 export const addMessage = (chatId, message) => ({
     type: ADD_MESSAGE,
     chatId,
     message,
+});
+
+export const deleteMessagesFromChat = (chatId) => ({
+    type: DELETE_MESSAGES_FROM_CHAT,
+    chatId,
 });
 
 export const addBotMessage = (chatId, message, selectedChat) => (dispatch, getState) => {

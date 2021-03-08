@@ -1,4 +1,4 @@
-import {ADD_MESSAGE} from "./actions";
+import {ADD_MESSAGE, DELETE_MESSAGES_FROM_CHAT} from "./actions";
 
 const initialState = {
     messageList: {
@@ -25,6 +25,14 @@ const messagesReducer = (state = initialState, action) => {
                         },
                     ],
                 },
+            };
+        }
+        case DELETE_MESSAGES_FROM_CHAT: {
+            return {
+                ...state,
+                messageList: state.messageList.filter(
+                    messageListItem => messageListItem[action.chatId] !== action.chatId
+                )
             };
         }
         default:
