@@ -3,11 +3,14 @@ import mic from "../img/mic.png";
 import emo from "../img/emo.png";
 import camera from "../img/camera.png";
 import attach_file from "../img/attach_file.png";
+import {AUTHORS} from "../utils/constants";
 import Form from 'react-bootstrap/Form';
 
-const Message = ({messageFieldHandler}) => {
+const Message = ({onAddMessage}) => {
 
-        const [message, setMessage] = useState({author: 'Александр', text: ''});
+        const [message, setMessage] = useState(
+            {text: '', author: AUTHORS.ME}
+        );
 
         const changeHandler = ({target}) => {
             setMessage({
@@ -17,7 +20,7 @@ const Message = ({messageFieldHandler}) => {
 
         const keyPressHandler = ({key}) => {
             if (key === "Enter" && typeof message.text !== 'undefined' && message.text !== '') {
-                messageFieldHandler(message);
+                onAddMessage(message.text, AUTHORS.ME);
                 setMessage({
                     ...message, text: ''
                 });

@@ -1,60 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import Message from "./Message";
+import React, {useCallback} from 'react';
+import {AUTHORS} from "../utils/constants";
 
-const MessageField = () => {
+const MessageField = ({messages, chatNotSelected}) => {
 
-    const [messageField, setMessageField] = useState([
-            {id: 0, message: {author: 'Робот', text: 'Привет!'}},
-            {id: 1, message: {author: 'Робот', text: 'Как дела?'}}
-        ]
-    );
-
-    const addMessageField = (messageIn) => {
-        setMessageField([...messageField, {
-            id: messageField.length,
-            message: messageIn
-        }])
-    }
-
-    useEffect(() => {
-        if (messageField[messageField.length - 1].message.author !== 'Робот') {
-            const timer = setTimeout(() =>
-                setMessageField([...messageField, {
-                        id: messageField.length,
-                        message: {author: 'Робот', text: 'Не приставай ко мне, я робот!'}
-                    }]
-                ), 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [messageField]);
+    const renderMessage = useCallback((message, i) => (
+        <div
+            className={'chat-' + (message.author !== AUTHORS.ME ? "l" : "r")}
+            key={i}
+        >
+            {message.author === AUTHORS.ME &&
+            <div className="sp"></div>
+            }
+            <div className="mess">
+                <p>{message.text}</p>
+                <div className="check">
+                    <span>{message.author}</span>
+                </div>
+            </div>
+            {message.author !== AUTHORS.ME &&
+            <div className="sp"></div>
+            }
+        </div>
+    ), []);
 
     return (
-        <>
-            <div className="chat-box">
-                {messageField.map(item => (
-                    <div
-                        className={'chat-' + (item.message.author === 'Робот' ? "l" : "r")}
-                        key={item.id}
-                    >
-                        {item.message.author !== 'Робот' &&
-                        <div className="sp"></div>
-                        }
-                        <div className="mess">
-                            <p>
-                                {item.message.text}
-                            </p>
-                            <div className="check">
-                                <span>{item.message.author}</span>
-                            </div>
-                        </div>
-                        {item.message.author == 'Робот' &&
-                        <div className="sp"></div>
-                        }
-                    </div>
-                ))}
-            </div>
-            <Message messageFieldHandler={addMessageField}/>
-        </>
+        <div className="chat-box">
+            {chatNotSelected
+                ? <h4>Выберите пожалуйста чат</h4>
+                : messages.map(renderMessage)
+            }
+        </div>
     )
 }
 export default MessageField
