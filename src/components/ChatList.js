@@ -42,22 +42,11 @@ const ChatList = ({chatId}) => {
     }, []);
 
     const renderChatList = useCallback(chat => (
-            <>
-                <div onClick={handleDeleteOpen}>XXX</div>
-
-                <Link key={chat.id} to={`/chats/${chat.id}`}>
-                    <ListGroup.Item className={chat.isBlinking ? 'blink' : ''} active={chat.id === chatId}>
-                        {chat.name}
-                    </ListGroup.Item>
-                </Link>
-
-                <DeleteChatDialog
-                    onClose={handleDeleteClose}
-                    onSubmit={deleteChatFromList}
-                    visible={deleteVisible}
-                    value={chat.id}
-                />
-            </>
+            <Link key={chat.id} to={`/chats/${chat.id}`}>
+                <ListGroup.Item className={chat.isBlinking ? 'blink' : ''} active={chat.id === chatId}>
+                    {chat.name}
+                </ListGroup.Item>
+            </Link>
         ),
         [chatId]
         )

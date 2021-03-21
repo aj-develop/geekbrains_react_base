@@ -7,12 +7,13 @@ import React from "react";
 import {Link, generatePath} from "react-router-dom";
 import {ROUTES} from "../../utils/constants";
 import {useSelector} from "react-redux";
+import PushToggle from "../PushToggle";
 
 const ChatHeader = ({chatId}) => {
 
     const profiles = useSelector(state => state.profile.profileList);
     const profile = profiles[chatId];
-    
+
     const renderName = (
             <>
                 <img src={arrow} className="arrow" alt="arrow"/>
@@ -34,6 +35,7 @@ const ChatHeader = ({chatId}) => {
                     }
                 </div>
                 <div className="right">
+                    <PushToggle/>
                     <img src={video} className="icon" alt="video"/>
                     <img src={phone} className="icon" alt="phone"/>
                     <img src={more} className="icon" alt="more"/>
