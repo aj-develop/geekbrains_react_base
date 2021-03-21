@@ -3,6 +3,7 @@ import Message from "../Message";
 import MessageField from "../MessageField";
 import ChatList from "../ChatList";
 import ChatHeader from "../ChatHeader";
+import InstallPopup from "../InstallPopup";
 import React, {useCallback, useMemo} from 'react';
 import {useParams, useRouteMatch, Redirect} from "react-router-dom";
 import Profile from "../Profile";
@@ -54,6 +55,7 @@ const Chats = () => {
                                         <ChatHeader chatId={chatId}/>
                                         <MessageField messages={messageList}/>
                                         <Message onAddMessage={addMessage}/>
+                                        <InstallPopup/>
                                     </div>
                                 </>
                             );
@@ -64,6 +66,7 @@ const Chats = () => {
                                     <div className="chat">
                                         <ChatHeader chatId={chatId}/>
                                         <MessageField chatNotSelected={true}/>
+                                        <InstallPopup/>
                                     </div>
                                 </>
                             );
@@ -74,6 +77,7 @@ const Chats = () => {
                                     <div className="chat">
                                         <ChatHeader chatId={chatId}/>
                                         <Profile chatId={chatId}/>
+                                        <InstallPopup/>
                                     </div>
                                 </>
                             );
